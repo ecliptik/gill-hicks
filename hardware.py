@@ -2,8 +2,19 @@ from flask import Flask, request, jsonify
 import sqlite3 as sql
 import time
 import random
+import os
 application = Flask(__name__)
 
+#Setup mysql connection using flask-mysql
+from flaskext.mysql import MySQL
+mysql = MySQL()
+
+#Set variables using ENV vars or use defaults
+application.config['MYSQL_DATABASE_HOST'] = os.environ.get('MYSQL_HOST', 'mysql')
+application.config['MYSQL_DATABASE_USER'] = os.environ.get('MYSQL_USER', 'mysql')
+application.config['MYSQL_DATABASE_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', 'mysql')
+application.config['MYSQL_DATABASE_DB'] = os.environ.get('MYSQL_DATABASE', 'hardware')
+mysql.init_app(application)
 
 def slow_process_to_calculate_availability(provider, name):
     time.sleep(5)
@@ -12,8 +23,9 @@ def slow_process_to_calculate_availability(provider, name):
 
 @application.route('/hardware/')
 def hardware():
-    con = sql.connect('database.db')
+    con = mysql.connect()
     c = con.cursor()
+    c.execute('SELECT * from hardware')
 
     statuses = [
         {
@@ -24,7 +36,7 @@ def hardware():
                 row[2]
             ),
         }
-        for row in c.execute('SELECT * from hardware')
+        for row in c.fetchall()
     ]
 
     con.close()

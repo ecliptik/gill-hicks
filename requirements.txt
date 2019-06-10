@@ -1,3 +1,7 @@
-Flask==1.0.2
-requests==2.20.0
+#App deps
+Flask==1.0.3
+requests==2.22.0
 
+#DB Connectors
+flask-mysql==1.4.0
+cryptography==2.7

@@ -1,5 +1,5 @@
 CREATE TABLE hardware (
-  id integer primary key autoincrement,
+  id integer primary key AUTO_INCREMENT,
   provider text not null,
   name text not null);
 

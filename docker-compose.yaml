@@ -1,0 +1,41 @@
+version: "2.4"
+services:
+  portal:
+    build: .
+    stdin_open: true
+    environment:
+      HARDWARE_HOST: hardware
+    ports:
+      - "5000:5000"
+    links:
+      - hardware:hardware
+    depends_on:
+      - hardware
+  hardware:
+    build: .
+    stdin_open: true
+    entrypoint:
+        - sh
+        - /app/local.sh
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: hardware
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+    volumes:
+      - ./database.sql:/tmp/database.sql
+    ports:
+      - "5001:5001"
+    links:
+      - mysql:mysql
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:5.7
+    stdin_open: true
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: hardware
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql

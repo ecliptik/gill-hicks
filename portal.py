@@ -1,11 +1,13 @@
 from flask import Flask, request
 import requests
+import os
 application = Flask(__name__)
 
+hardware_host = os.environ.get('HARDWARE_HOST', 'localhost')
 
 @application.route('/')
 def dashboard():
-    result = requests.get('http://0.0.0.0:5001/hardware/').json()
+    result = requests.get('http://' + hardware_host + ':5001/hardware/').json()
     hardware = [
         '{} - {}: {}'.format(r['provider'], r['name'], r['availability'])
         for r in result
