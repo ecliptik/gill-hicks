@@ -17,8 +17,6 @@ The following changes were done in order to the app to satisfy requirements,
 - Used environment variables instead of hardcoded configuration for environment agnostic configuration
 - Added [flask-mysql](https://flask-mysql.readthedocs.io/en/latest/) to connect to MySQL database
 
-Python Flask app using MySQL backend host.
-
 ## Prerequisites
 
 Before deploying the application to AWS [terraform](https://www.terraform.io/) is used t bring up the AWS EKS Kubernetes Cluster and AWS MySQL RDS. Kubernetes is used as the container orchestration engine to provide cloud native integration with AWS servies such as Route53 and ALB to run the application, and RDS for stateful storage.
@@ -48,6 +46,8 @@ The `Makefile` in this repository contains macros for common build and deploy ta
   - updates the Kubernetes deployment in `./kubernetes/manifest.yaml` to the latest docker tag from the build step
   - updates secrets based on environment variables - ideally these would be set in a CI/CD system and not manually everytime
   - deploys application with `kubectl apply -f ./kubernetes/manifest.yaml`
+
+The Makefile will automatically update the DOCKER_TAG based off the branch/sha and deploy this version. This should be done within a proper CI/CD system such as Jenkins to leverage deployment history, access control, automated deployments, unit tests, and rollbacks by selecting available tags on an image instead of manually modyfing it within the repository everytime.
 
 This application uses a Kubernetes secret for sensitive database information. The `secret` macro will generate this, using the defaults in `Makefile`. For production use, such as pointing to an RDS instance, these values should be set in the shells environment in order not leak secrets into the file itself. These values are output when `./terraform/rds/output.tf` is run after using terraform to create the RDS intance.
 
@@ -125,6 +125,6 @@ Because the application uses a backend database and does not store any state loc
 
 Using [Horizontal Pod Sclaer](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) and [Prometheus](https://prometheus.io/) with custom httpmetrics, pods can scale up and down depending on the incoming traffic. See this [example](https://docs.bitnami.com/kubernetes/how-to/configure-autoscaling-custom-metrics/) for a possible way this is setup.
 
-Furthermore, if using [SpotInst Ocean](https://spotinst.com/products/ocean/) or [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), node scaling can occur automatically based on metrics and an increase in running pods.
+Furthermore, if using [SpotInst Ocean](https://spotinst.com/products/ocean/) or [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), node scaling can occur automatically based on metrics and increase resources for additional pods.
 
 Using HPA and a Cluster Autoscaler together allows for dyanmic scaling of the service and the underlying infrastructure in response to increasing and decreasing load.
