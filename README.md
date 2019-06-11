@@ -19,7 +19,7 @@ The following changes were done in order to the app to satisfy requirements,
 
 ## Prerequisites
 
-Before deploying the application to AWS [terraform](https://www.terraform.io/) is used t bring up the AWS EKS Kubernetes Cluster and AWS MySQL RDS. Kubernetes is used as the container orchestration engine to provide cloud native integration with AWS servies such as Route53 and ALB to run the application, and RDS for stateful storage.
+Before deploying the application, [terraform](https://www.terraform.io/) is used t bring up the AWS EKS Kubernetes Cluster and AWS MySQL RDS. Kubernetes is used as the container orchestration engine to provide cloud native integration with AWS servies such as Route53 and ALB to run the application, and RDS for stateful storage.
 
 See [terraform/README.md](terraform/README.md) for creating the required AWS resources with terraform.
 
