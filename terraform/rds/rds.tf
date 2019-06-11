@@ -37,4 +37,5 @@ resource "aws_db_instance" "hardware" {
   db_subnet_group_name = "main"
   vpc_security_group_ids = ["${data.aws_security_group.eks-sg.id}"]
   skip_final_snapshot  = "true"
+  depends_on = ["aws_db_subnet_group.default"]
 }

@@ -3,6 +3,13 @@ resource "aws_security_group" "node" {
   description = "Security group for all nodes in the cluster"
   vpc_id      = "${aws_vpc.eks.id}"
 
+  ingress {
+    from_port   = 0
+    to_port     = 0 
+    protocol    = "-1"
+    cidr_blocks = ["${var.cidr_block}.0.0/16"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

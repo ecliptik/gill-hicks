@@ -26,7 +26,9 @@ resource "aws_subnet" "public_subnet" {
     map(
      "Name", "public-${lookup(var.zones, format("zone%d", count.index))}",
      "kubernetes.io/cluster/${var.cluster-name}", "shared",
-     "tier", "public"
+     "tier", "public",
+     "kubernetes.io/role/elb", "1"
+
     )
   }"
 
@@ -43,7 +45,8 @@ resource "aws_subnet" "private_subnet" {
     map(
      "Name", "private-${lookup(var.zones, format("zone%d", count.index))}",
      "kubernetes.io/cluster/${var.cluster-name}", "shared",
-     "tier", "private"
+     "tier", "private",
+     "kubernetes.io/role/internal-elb", "1"
     )
   }"
 }
