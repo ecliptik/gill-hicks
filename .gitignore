@@ -102,3 +102,15 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+#terraform
+.terraform
+*tfstate*
+config_map_aws_auth.yaml
+
+#vim swp
+*.swp
+
+#Kubernetes
+.secret
+.bak

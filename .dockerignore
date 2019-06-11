@@ -1,0 +1,10 @@
+.env
+.git
+kubernetes/
+terraform/
+*.sql
+docker-compose.yaml
+.secret
+README*
+Makefile
+.gitignore
