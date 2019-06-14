@@ -115,3 +115,16 @@ resource "aws_eip" "nat" {
     Name = "public-${var.project_name}-${lookup(var.zones, format("zone%d", count.index))}"
   }
 }
+
+#outputs
+output "vpc-id" {
+  value = "${aws_vpc.eks.id}"
+}
+
+output "public-subnets" {
+  value = ["${aws_subnet.public_subnet.*.id}"]
+}
+
+output "private-subnets" {
+  value = ["${aws_subnet.private_subnet.*.id}"]
+}
