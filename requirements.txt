@@ -4,4 +4,4 @@ requests==2.22.0
 
 #DB Connectors
 flask-mysql==1.4.0
-cryptography==3.2
+cryptography==3.3.2
